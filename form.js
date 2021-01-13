@@ -23,7 +23,7 @@ function myClick() {
   }
 	localStorage.setItem("ccDigits", ccDigits);
 
-  // Age, lowest is used if multiple are checked
+  // Age
   if (document.getElementById("age14").checked) {
     localStorage.setItem("age", "fourteen");
   }
