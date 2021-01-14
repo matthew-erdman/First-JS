@@ -50,22 +50,25 @@ function submit() {
   console.log("Age: ", formData["age"]);
 
   // Replaces old form with new confirmation form
-  myDiv.innerHTML = "\n";
+  myDiv.innerHTML = "";
   myDiv.innerHTML += "\t\t<h1>free robux time yes almost</h1>\n";
-  myDiv.innerHTML += "\t\t<p>" + "Hello, " + formData["fname"] + " " + formData["lname"] + " - age " + formData["age"] + "!" + "</p>\n";
-  myDiv.innerHTML += "\t\t<p>" + "Please confirm your SSN of:  " + formData["ssn"] + "." + "</p>\n";
-  myDiv.innerHTML += "\t\t<p>" + "Please confirm your email of:  " + formData["email"] + "." + "</p>\n";
-  myDiv.innerHTML += "\t\t<p>" + "And ensure your credit card has the digits: " + formData["ccDigits"] + "." + "</p>\n";
-  myDiv.innerHTML += "\t\t<p><button onclick='robux()'>confirm details for free robux! mhmmm yes</button></p>";
+  myDiv.innerHTML += "\t\t<p>" + "Hello, <b>" + formData["fname"] + "</b> <b>" + formData["lname"] + "</b> - age <b>" + formData["age"] + "</b>!" + "</p>\n";
+  myDiv.innerHTML += "\t\t<p>" + "Please confirm your SSN of:  <b>" + formData["ssn"] + "</b>." + "</p>\n";
+  myDiv.innerHTML += "\t\t<p>" + "Please confirm your email of:  <b>" + formData["email"] + "</b>." + "</p>\n";
+  myDiv.innerHTML += "\t\t<p>" + "And ensure your credit card has the digits: <b>" + formData["ccDigits"] + "</b>." + "</p>\n";
+  myDiv.innerHTML += "\t\t<p><button onclick='robux()'>confirm details for free robux! mhmmm yes</button></p>\n";
 
-  // Download formData JSON
+  // Download formData JSON button
   // https://developer.mozilla.org/en-US/docs/Web/API/Blob
   var blob = new Blob([JSON.stringify(formData)], {type : "application/json"});
   var url = URL.createObjectURL(blob)
-  myDiv.innerHTML += "\t\t<a href=" + url + " download='formData.json'><button>Download <s>my</s> our data</button></a>";
+  myDiv.innerHTML += "\t\t<a href=" + url + " download='formData.json'><button>Download <s>my</s> our data</button></a><br /><br />\n";
+  myDiv.innerHTML += "\t\t<a href='https://youtu.be/6n3pFFPSlW4' target='_blank'><button>Delete our data</button></a><br /><br />\n";
 }
 
-// Add image when confirm button is clicked, nothing is replaced
+// Add image and change background when confirm button is clicked
 function robux() {
-  myDiv.innerHTML += "\t\t<img src='robux.gif' alt='robux dab' />";
+  myDiv.innerHTML += "\t\t<img width=" + window.innerWidth + " height='500' src='robux.gif' alt='robux dab' /><br />\n";
+  myDiv.innerHTML = myDiv.innerHTML.replace('onclick="robux()"', "disabled='true'")
+  document.getElementsByTagName("style")[0].innerHTML = document.getElementsByTagName("style")[0].innerHTML.replace("url()", "url('robux.jpg')")
 }
