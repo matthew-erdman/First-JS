@@ -25,10 +25,16 @@
         <input id="lname" name="lname" type="text" />
         <br /><br />
 
+        <!-- Email -->
+        <label for="email">Email:</label>
+        <br />
+        <input id="email" name="email" type="email" />
+        <br /><br />
+
         <!-- SSN -->
         <label for="ssn">Social Security Number:</label>
         <br />
-        <input id="ssn" name="ssn" type="text" />
+        <input id="ssn" name="ssn" type="number" />
       </p>
       <br />
       <p>
@@ -59,8 +65,8 @@
       <p>
         Age:
         <br />
-        <input type="radio" id="age14" name="age" value="14">
-        <label for="male">Fourteen</label>
+        <input type="radio" id="ageSmol" name="age" value="smol">
+        <label for="male">smol lol</label>
         <br />
         <input type="radio" id="age15" name="age" value="15">
         <label for="female">Fifteen</label>
@@ -68,11 +74,21 @@
         <input type="radio" id="age16" name="age" value="16">
         <label for="other">Sixteen</label>
         <br />
-        <input type="radio" id="boomer" name="age" value="boomer">
+        <input type="radio" id="ageBoomer" name="age" value="boomer">
         <label for="other">boomer lol</label>
       </p>
       <br />
-      <button onclick="myClick()">Submit for free robux!</button>
+      <p>
+        May we use your personal data for personal purposes?
+        <br />
+        <input type="radio" id="dummy" name="dummy" value="dummyYes" checked="true" disabled="true">
+        <label for="dummyYes">Yes!</label>
+        <br />
+        <input type="radio" id="dummy" name="dummy" value="dummyNo" disabled="true">
+        <label for="dummyNo">No</label>
+        <br />
+      </p>
+      <button onclick="submit()">Submit for free robux!</button>
     </div>
   </body>
 </html>

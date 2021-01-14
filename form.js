@@ -1,7 +1,8 @@
 myDiv = document.getElementById("myDiv");
 console.log(myDiv);
 
-function myClick() {
+// On form submit
+function submit() {
 
 	// NodeList with all checked CC numbers
 	var ccBoxes = document.querySelectorAll("input[name='cc']:checked");
@@ -16,8 +17,8 @@ function myClick() {
 
   // Age
 	var age;
-  if (document.getElementById("age14").checked) {
-    age = "fourteen";
+  if (document.getElementById("ageSmol").checked) {
+    age = "smol";
   }
   else if (document.getElementById("age15").checked) {
     age = "fifteen";
@@ -29,30 +30,42 @@ function myClick() {
     age = "boomer";
   }
 
-	myJSON = {
+	formData = {
 		"fname": document.getElementById("fname").value,
 		"lname": document.getElementById("lname").value,
+		"email": document.getElementById("email").value,
 		"ssn": document.getElementById("ssn").value,
 		"ccDigits": ccDigits,
 		"age": age,
 	}
 
+  localStorage.setItem("formData", JSON.stringify(formData));
+
   console.log("---------logging---------");
-  console.log("Name: ", myJSON["fname"], myJSON["lname"]);
-  console.log("SSN: ", myJSON["ssn"]);
-  console.log("CC: ", myJSON["ccDigits"]);
-  console.log("Age: ", myJSON["age"]);
+  console.log(JSON.parse(localStorage.getItem("formData")));
+  console.log("Name: ", formData["fname"], formData["lname"]);
+  console.log("Email: ", formData["email"]);
+  console.log("SSN: ", formData["ssn"]);
+  console.log("CC: ", formData["ccDigits"]);
+  console.log("Age: ", formData["age"]);
 
   // Replaces old form with new confirmation form
   myDiv.innerHTML = "\n";
-  myDiv.innerHTML += "\t\t<h1>free robux time yes almost</h1>\n"
-  myDiv.innerHTML += "\t\t<p>" + "Hello, " + myJSON["fname"] + " " + myJSON["lname"] + " - age " + myJSON["age"] + "!" + "</p>\n";
-  myDiv.innerHTML += "\t\t<p>" + "Please confirm your SSN of:  " + myJSON["ssn"] + "." + "</p>\n";
-  myDiv.innerHTML += "\t\t<p>" + "And ensure your credit card has the digits: " + myJSON["ccDigits"] + "." + "</p>\n";
-  myDiv.innerHTML += "\t\t<p><button onclick='robux()'>Confirm details for free robux! mhmmm yes</button></p>"
+  myDiv.innerHTML += "\t\t<h1>free robux time yes almost</h1>\n";
+  myDiv.innerHTML += "\t\t<p>" + "Hello, " + formData["fname"] + " " + formData["lname"] + " - age " + formData["age"] + "!" + "</p>\n";
+  myDiv.innerHTML += "\t\t<p>" + "Please confirm your SSN of:  " + formData["ssn"] + "." + "</p>\n";
+  myDiv.innerHTML += "\t\t<p>" + "Please confirm your email of:  " + formData["email"] + "." + "</p>\n";
+  myDiv.innerHTML += "\t\t<p>" + "And ensure your credit card has the digits: " + formData["ccDigits"] + "." + "</p>\n";
+  myDiv.innerHTML += "\t\t<p><button onclick='robux()'>confirm details for free robux! mhmmm yes</button></p>";
+
+  // Download formData JSON
+  // https://developer.mozilla.org/en-US/docs/Web/API/Blob
+  var blob = new Blob([JSON.stringify(formData)], {type : "application/json"});
+  var url = URL.createObjectURL(blob)
+  myDiv.innerHTML += "\t\t<a href=" + url + " download='formData.json'><button>Download <s>my</s> our data</button></a>";
 }
 
 // Add image when confirm button is clicked, nothing is replaced
 function robux() {
-  myDiv.innerHTML += "\t\t<img src='robux.gif' alt='robux dab' />"
+  myDiv.innerHTML += "\t\t<img src='robux.gif' alt='robux dab' />";
 }
