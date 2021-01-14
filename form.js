@@ -3,21 +3,14 @@ console.log(myDiv);
 
 function myClick() {
 
-	// List with all checked CC numbers
+	// NodeList with all checked CC numbers
 	var ccBoxes = document.querySelectorAll("input[name='cc']:checked");
-	console.log(ccBoxes.length);
 	console.log(ccBoxes);
 
 	// Generate list of actual CC numbers from list of boxes
 	var ccDigits = [];
-	// for (box in ccBoxes) {
-  //  ccDigits.push(box.value);
-	// 	console.log(box);
-	// 	console.log(box.value);
-  // }
-	for (var box; box++; box < 2) {
-		console.log("aaa" + ccBoxes[box].value);
-		ccDigits.push(ccBoxes[box].value);
+	for (var i = 0; i < ccBoxes.length; i++) {
+		ccDigits.push(ccBoxes[i].value);
 	}
 	console.log(ccDigits);
 
@@ -44,10 +37,11 @@ function myClick() {
 		"age": age,
 	}
 
-  console.log(myJSON["fname"], myJSON["lname"]);
-  console.log(myJSON["ssn"]);
-  console.log(myJSON["ccDigits"]);
-  console.log(myJSON["age"]);
+  console.log("---------logging---------");
+  console.log("Name: ", myJSON["fname"], myJSON["lname"]);
+  console.log("SSN: ", myJSON["ssn"]);
+  console.log("CC: ", myJSON["ccDigits"]);
+  console.log("Age: ", myJSON["age"]);
 
   // Replaces old form with new confirmation form
   myDiv.innerHTML = "\n";
