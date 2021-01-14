@@ -2,52 +2,59 @@ myDiv = document.getElementById("myDiv");
 console.log(myDiv);
 
 function myClick() {
-  localStorage.setItem("fname", document.getElementById("fname").value);
-  localStorage.setItem("lname", document.getElementById("lname").value);
-  localStorage.setItem("ssn", document.getElementById("ssn").value);
 
-  // List of booleans showing checked CC numbers
-  var cc = [
-   document.getElementById("cc0").checked, document.getElementById("cc1").checked,
-   document.getElementById("cc2").checked, document.getElementById("cc3").checked,
-   document.getElementById("cc4").checked, document.getElementById("cc5").checked,
-   document.getElementById("cc6").checked, document.getElementById("cc7").checked,
-   document.getElementById("cc8").checked, document.getElementById("cc9").checked];
+	// List with all checked CC numbers
+	var ccBoxes = document.querySelectorAll("input[name='cc']:checked");
+	console.log(ccBoxes.length);
+	console.log(ccBoxes);
 
-  // Generate list of actual CC numbers from list of booleans
+	// Generate list of actual CC numbers from list of boxes
 	var ccDigits = [];
-  for (digit in cc) {
-    if (cc[digit]) {
-      ccDigits.push(digit);
-    }
-  }
-	localStorage.setItem("ccDigits", ccDigits);
+	// for (box in ccBoxes) {
+  //  ccDigits.push(box.value);
+	// 	console.log(box);
+	// 	console.log(box.value);
+  // }
+	for (var box; box++; box < 2) {
+		console.log("aaa" + ccBoxes[box].value);
+		ccDigits.push(ccBoxes[box].value);
+	}
+	console.log(ccDigits);
 
-  // Age, lowest is used if multiple are checked
+  // Age
+	var age;
   if (document.getElementById("age14").checked) {
-    localStorage.setItem("age", "fourteen");
+    age = "fourteen";
   }
   else if (document.getElementById("age15").checked) {
-    localStorage.setItem("age", "fifteen");
+    age = "fifteen";
   }
   else if (document.getElementById("age16").checked) {
-    localStorage.setItem("age", "sixteen");
-  }
-  else if (document.getElementById("boomer").checked) {
-    localStorage.setItem("age", "boomer");
+    age = "sixteen";
+	}
+  else if (document.getElementById("ageBoomer").checked) {
+    age = "boomer";
   }
 
-  console.log(localStorage.getItem("fname"), localStorage.getItem("lname"));
-  console.log(localStorage.getItem("ssn"));
-  console.log(localStorage.getItem("ccDigits"));
-  console.log(localStorage.getItem("age"));
+	myJSON = {
+		"fname": document.getElementById("fname").value,
+		"lname": document.getElementById("lname").value,
+		"ssn": document.getElementById("ssn").value,
+		"ccDigits": ccDigits,
+		"age": age,
+	}
+
+  console.log(myJSON["fname"], myJSON["lname"]);
+  console.log(myJSON["ssn"]);
+  console.log(myJSON["ccDigits"]);
+  console.log(myJSON["age"]);
 
   // Replaces old form with new confirmation form
   myDiv.innerHTML = "\n";
   myDiv.innerHTML += "\t\t<h1>free robux time yes almost</h1>\n"
-  myDiv.innerHTML += "\t\t<p>" + "Hello, " + localStorage.getItem("fname") + " " + localStorage.getItem("lname") + " - age " + localStorage.getItem("age") + "!" + "</p>\n";
-  myDiv.innerHTML += "\t\t<p>" + "Please confirm your SSN of:  " + localStorage.getItem("ssn") + "." + "</p>\n";
-  myDiv.innerHTML += "\t\t<p>" + "And ensure your credit card has the digits: " + localStorage.getItem("ccDigits") + "." + "</p>\n";
+  myDiv.innerHTML += "\t\t<p>" + "Hello, " + myJSON["fname"] + " " + myJSON["lname"] + " - age " + myJSON["age"] + "!" + "</p>\n";
+  myDiv.innerHTML += "\t\t<p>" + "Please confirm your SSN of:  " + myJSON["ssn"] + "." + "</p>\n";
+  myDiv.innerHTML += "\t\t<p>" + "And ensure your credit card has the digits: " + myJSON["ccDigits"] + "." + "</p>\n";
   myDiv.innerHTML += "\t\t<p><button onclick='robux()'>Confirm details for free robux! mhmmm yes</button></p>"
 }
 
