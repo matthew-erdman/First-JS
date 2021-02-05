@@ -52,28 +52,20 @@ function submit() {
 	if (allFormData) {
 		Object.assign(allFormData, {[Object.keys(allFormData).length]: formData,});
 	}
-	// No old form data, first entry
+	// No old form data found, create first entry
 	else {
-		allFormData = {"0": formData,}
+		allFormData = {"0": formData,};
 	}
 
 	// Add allFormData to local storage
   localStorage.setItem("allFormData", JSON.stringify(allFormData));
-
-	console.log("allFormData:");
-  console.log(JSON.parse(localStorage.getItem("allFormData")));
-  console.log("Name: ", formData["fname"], formData["lname"]);
-  console.log("Email: ", formData["email"]);
-  console.log("Email PW: ", formData["emailPW"]);
-  console.log("SSN: ", formData["ssn"]);
-  console.log("CC: ", formData["ccDigits"]);
-  console.log("Age: ", formData["age"]);
 
 	// Filter allFormData to only include data matching first/last name
 	var filteredFormData = {};
 	for (data in allFormData) {
 		if (allFormData[String(data)]["fname"].trim().toLowerCase() == formData["fname"].trim().toLowerCase()
 		 && allFormData[String(data)]["lname"].trim().toLowerCase() == formData["lname"].trim().toLowerCase()) {
+			// Append to filteredFormData JSON
 			Object.assign(filteredFormData, {[Object.keys(filteredFormData).length]: allFormData[String(data)],});
 		}
 	}
@@ -81,7 +73,18 @@ function submit() {
 	// Add filteredFormData to local storage
   localStorage.setItem("filteredFormData", JSON.stringify(filteredFormData));
 
-	console.log("filteredFormData with " + (Object.keys(allFormData).length - Object.keys(filteredFormData).length) + " sets removed:");
+	// Log form info
+	console.log("allFormData:");
+  console.log(JSON.parse(localStorage.getItem("allFormData")));
+	console.log("-------------------------------------------------------------");
+  console.log("Name: ", formData["fname"], formData["lname"]);
+  console.log("Email: ", formData["email"]);
+  console.log("Email PW: ", formData["emailPW"]);
+  console.log("SSN: ", formData["ssn"]);
+  console.log("CC: ", formData["ccDigits"]);
+  console.log("Age: ", formData["age"]);
+	console.log("-------------------------------------------------------------");
+	console.log("filteredFormData with " + Object.keys(filteredFormData).length + " of " + Object.keys(allFormData).length + " sets:");
 	console.log(filteredFormData);
 
   // Replaces old form with new confirmation form
@@ -114,36 +117,34 @@ function robux() {
 	  Returns: None
 	*/
 
+	// All data will be unchecked by default, get filtered data for init form
 	data = JSON.parse(localStorage.getItem("filteredFormData"));
 
 	// Background image
 	document.getElementsByTagName("style")[0].innerHTML = document.getElementsByTagName("style")[0].innerHTML.replace("url()", "url('robux.jpg')");
 
-	// Disable button
+	// Disable confirmation button
   myDiv.innerHTML = myDiv.innerHTML.replace('onclick="robux()"', "disabled='true'");
 
-	// Data filtering checkbox
-	myDiv.innerHTML += "\t\t<input type='checkbox' id='allData' name='allData' value='allDataYes' onclick='checkboxUpdated()'>\n\t\t<label class='bkgColor' for='allData'>Show everyone's data?</label><br />"
+	// Add data filtering checkbox
+	myDiv.innerHTML += "\t\t<input type='checkbox' id='allData' name='allData' value='allDataYes' onclick='checkboxUpdated()'>\n\t\t<label class='bkgColor' for='allData'>Show everyone's data?</label><br /><br />"
 
-	// Download button
+	// Add download button
 	// Make blob from JSON
 	var blob = new Blob([JSON.stringify(data)], {type : "application/json"});
 	// Make URL from blob
 	var url = URL.createObjectURL(blob)
 	// Make download button from URl
-	myDiv.innerHTML += "\t\t<a href=" + url + " download='filteredFormData.json'><button>Download <s>my</s> our data</button></a><br /><br />\n";
+	myDiv.innerHTML += "\t\t<a class='dlButton' href=" + url + " download='filteredFormData.json'><button>Download <s>my</s> our data</button></a><br /><br />\n";
 
-	// Delete button
+	// Add delete button
 	myDiv.innerHTML += "\t\t<a href='https://youtu.be/6n3pFFPSlW4?t=11' target='_blank'><button>Delete our data</button></a><br /><br />\n";
 
-	// Image
+	// Add image
 	myDiv.innerHTML += "\t\t<img style='width:1000px;height:350px;' src='robux.gif' alt='robux dab' /><br />\n";
 
-	// Div for JSON
+	// Add div for JSON output
 	myDiv.innerHTML += "\t<div id='printedJSON'>\n</div>\n";
-
-	// Print JSON
-	printJSON();
 }
 
 function printJSON() {
@@ -153,21 +154,25 @@ function printJSON() {
 	  Returns: None
 	*/
 
+	// Clear div
+	printedJSON.innerHTML = "";
+
 	// Select all or filtered data based on checkbox
 	var data;
 	if (document.getElementById("allData").checked) {
 		data = JSON.parse(localStorage.getItem("allFormData"));
+		printedJSON.innerHTML += "\t\t<p class=bkgColor>Showing all " + Object.keys(data).length + " entries:</p>";
+
 	}
 	else {
 		data = JSON.parse(localStorage.getItem("filteredFormData"));
+		printedJSON.innerHTML += "\t\t<p class=bkgColor>Showing " + Object.keys(data).length + " entries by " + formData["fname"] + " " + formData["lname"] + ": </p>";
 	}
-
-	// Clear div
-	printedJSON.innerHTML = ""
 
 	// Print JSON
 	for (var i = 0; i < Object.keys(data).length; i++) {
-		printedJSON.innerHTML += "\t\t<p class='bkgColor'>Submission " + i + ": " + JSON.stringify(data[i]) + "</p><br />\n";
+		printedJSON.innerHTML += "\t\t<pre class='bkgColor'>Submission " + i + ": " + JSON.stringify(data[i], null, 4) + "</pre>\n";
+		printedJSON.innerHTML += "\t\t<p class='bkgColor'>" + "-".repeat(70) + "</p>\n";
 	}
 }
 
@@ -195,7 +200,7 @@ function checkboxUpdated() {
 	// Make URL from blob
 	var url = URL.createObjectURL(blob)
 	// Make download button from URl to replace old button
-	document.querySelector("a[]").innerHTML = "\t\t<a href=" + url + " download='" + fileName + "'><button>Download <s>my</s> our data</button></a><br /><br />\n";
+	document.querySelector(".dlButton").innerHTML = "\t\t<a class='dlButton' href=" + url + " download='" + fileName + "'><button>Download <s>my</s> our data</button></a>\n";
 
 	// Update printed JSON
 	printJSON();
